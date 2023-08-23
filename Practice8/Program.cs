@@ -14,19 +14,76 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(solveExpression("1+1=?"));
+            Debug.WriteLine(HasSubpattern("abbaabbaabba"));
         }
         /*
-         Assert.AreEqual(2, Runes.solveExpression("1+1=?"), "Answer for expression '1+1=?' ");
-         Assert.AreEqual(6, Runes.solveExpression("123*45?=5?088"), "Answer for expression '123*45?=5?088' ");      
-         Assert.AreEqual(0, Runes.solveExpression("-5?*-1=5?"), "Answer for expression '-5?*-1=5?' ");
-         Assert.AreEqual(-1, Runes.solveExpression("19--45=5?"), "Answer for expression '19--45=5?' ");
-         Assert.AreEqual(5, Runes.solveExpression("??*??=302?"), "Answer for expression '??*??=302?' ");
-         Assert.AreEqual(2, Runes.solveExpression("?*11=??"), "Answer for expression '?*11=??' ");
-         Assert.AreEqual(2, Runes.solveExpression("??*1=??"), "Answer for expression '??*1=??' ");
-         Assert.AreEqual(-1, Runes.solveExpression("??+??=??"), "Answer for expression '??+??=??' ");
          */
+        public static bool HasSubpattern(string str)
+        {
+            if (str.Length > 1)
+            {
+                for (int i = 0; i < str.Length; i++)
+                {
+                    string checker = str.Substring(0, i + 1);
+                    string remainder = str.Substring(i + 1);
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append('*', checker.Length);
+                    var temp = sb + remainder;
+                    var nextIndex = temp.IndexOf(checker);
+                    if (nextIndex != -1)
+                    {
+                        checker = str.Substring(0, nextIndex);
+                        remainder = str.Substring(nextIndex);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    
+                    string replace = remainder.Replace(checker, "");
 
+                    if (!replace.Any())
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public static int[] ThreeAmigos(int[] numbers)
+        {
+            List<int> lowest = new List<int>();
+            int? range = null;
+            int start = 0;
+            int end = 2;
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                if (end <= numbers.Length - 1)
+                {
+                    List<int> tempLowest = new List<int> { numbers[start], numbers[start + 1], numbers[start + 2] };
+                    if (tempLowest.Where(x => x % 2 == 0).Count() == 0 || tempLowest.Where(x => x % 2 == 0).Count() == 3)
+                    {
+                        int tempRange = tempLowest.Max() - tempLowest.Min();
+                        if (range == null || tempRange < range)
+                        {
+                            range = tempRange;
+                            lowest = tempLowest;
+                        }
+                    }
+                    if (range == 0)
+                    {
+                        break;
+                    }
+                    start++;
+                    end++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return lowest.Any() ? lowest.ToArray() : new int[0];
+        }
         public static int solveExpression(string expression)
         {
             int missingDigit = -1;
