@@ -14,10 +14,81 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(HasSubpattern("abbaabbaabba"));
+            Debug.WriteLine(SixColumnEncryption("Let's kill them all"));
         }
         /*
+         * Assert.AreEqual("A.ow.f tanedo tt..or a.oan. cnrre. ko.e..",kata.SixColumnEncryption("Attack at noon or we are done for"));
          */
+        public static string SixColumnEncryption(string msg)
+        {
+            msg = msg.Replace(' ', '.');
+
+            List<string> columns = new List<string>();
+            
+            for (int i = 0; i < msg.Length; i+=6)
+            {
+                if (i + 6 > msg.Length - 1)
+                {
+                    string temp = msg.Substring(i);
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append('.', 6 - temp.Length);
+                    columns.Add($"{temp}{sb}");
+                }
+                else
+                {
+                    columns.Add(msg.Substring(i, 6));
+                }
+            }
+
+            string encrypt = "";
+
+            for (int i = 0; i < 6; i++)
+            {
+                string temp = "";
+                for (int j = 0; j < columns.Count; j++)
+                {
+                    temp += columns[j][i];
+                }
+                encrypt += $"{temp} ";
+            }
+
+            return encrypt.Trim();
+        }
+        
+        public static string Ordinal(int number, bool brief = false)
+        {
+            string num = number.ToString();
+            if (num.Length > 1)
+            {
+                if (num[num.Length - 2] == '1')
+                {
+                    if (num[num.Length - 1] == '1' || num[num.Length - 1] == '2' || num[num.Length - 1] == '3')
+                    {
+                        return "th";
+                    }
+                }
+            }
+            if ("0456789".Contains(num.Last()))
+            {
+                return "th";
+            }
+            if (num.Last() == '1')
+            {
+                return "st";
+            }
+            if ("23".Contains(num.Last()))
+            {
+                if (brief)
+                {
+                    return "d";
+                }
+                else
+                {
+                    return num.Last() == '2' ? "nd" : "rd";
+                }
+            }
+            return "";
+        }
         public static bool HasSubpattern(string str)
         {
             if (str.Length > 1)
