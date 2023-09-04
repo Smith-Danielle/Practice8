@@ -14,11 +14,51 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(SixColumnEncryption("Let's kill them all"));
+            Debug.WriteLine(CalculateBlank(new List<object>() { 2, "-", 82, "+", 802, "+", 62, "-", 23, "-", 924, "+", 1, "+", 200, "+", null, "+", 102, "+", 300, "-", 10, "=", 924 }));
         }
         /*
          * Assert.AreEqual("A.ow.f tanedo tt..or a.oan. cnrre. ko.e..",kata.SixColumnEncryption("Attack at noon or we are done for"));
          */
+        public static int CalculateBlank(List<object> objectList)
+        {
+            int running = 0;
+            int total = 0;
+            string action = "";
+            bool final = false;
+            string nullAction = "+";
+            for (int i = 0; i < objectList.Count; i++)
+            {
+                if (final)
+                {
+                    total = Convert.ToInt32(objectList[i]);
+                    break;
+                }
+                if (objectList[i] is String && "+-".Contains(objectList[i].ToString()))
+                {
+                    action = objectList[i].ToString();
+                }
+                if (objectList[i] is int || objectList[i] == null)
+                {
+                    if (action == "-")
+                    {
+                        running += -1 * (objectList[i] == null ? 0 : Convert.ToInt32(objectList[i]));
+                        if (objectList[i] == null)
+                        {
+                            nullAction = "-";
+                        }
+                    }
+                    else
+                    {
+                        running += objectList[i] == null ? 0 : Convert.ToInt32(objectList[i]);
+                    }
+                }
+                if (objectList[i] is String && objectList[i].ToString() == "=")
+                {
+                    final = true;
+                }
+            }
+            return (total - running) * (nullAction == "-" ? -1 : 1);
+        }
         public static string SixColumnEncryption(string msg)
         {
             msg = msg.Replace(' ', '.');
