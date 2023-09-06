@@ -14,11 +14,46 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(CalculateBlank(new List<object>() { 2, "-", 82, "+", 802, "+", 62, "-", 23, "-", 924, "+", 1, "+", 200, "+", null, "+", 102, "+", 300, "-", 10, "=", 924 }));
+            Debug.WriteLine(DoublyNotLess("9998786543"));
         }
         /*
          * Assert.AreEqual("A.ow.f tanedo tt..or a.oan. cnrre. ko.e..",kata.SixColumnEncryption("Attack at noon or we are done for"));
          */
+        public string StolenLunch(string note)
+        {
+            Dictionary<string, string> code = new Dictionary<string, string>
+            {
+                {"0","a"},
+                {"1","b"},
+                {"2","c"},
+                {"3","d"},
+                {"4","e"},
+                {"5","f"},
+                {"6","g"},
+                {"7","h"},
+                {"8","i"},
+                {"9","j"}
+            };
+            return string.Join("", note.Select(x => code.ContainsKey(x.ToString()) ? code[x.ToString()] : code.ContainsValue(x.ToString()) ? code.Where(y => y.Value == x.ToString()).Select(y => y.Key).First() : x.ToString()));
+        }
+        public static string DoublyNotLess(string n)
+        {
+            string forward = n;
+            string backward = string.Join("", n.ToCharArray().Reverse());
+            BigInteger counter = BigInteger.Parse(n);
+            while (counter > BigInteger.Parse(forward) || counter > BigInteger.Parse(backward))
+            {
+                counter++;
+                forward = counter.ToString();
+                backward = string.Join("", counter.ToString().ToCharArray().Reverse());
+            }
+            return forward;
+        }
+        public static int NthSmallest(int[][] arr, int n)
+        {
+            var nums = string.Join(" ", arr.Select(x => string.Join(" ", x)));
+            return nums.Split(" ").Select(x => Convert.ToInt32(x)).OrderBy(x => x).Take(n).Last();
+        }
         public static int CalculateBlank(List<object> objectList)
         {
             int running = 0;
