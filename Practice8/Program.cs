@@ -19,6 +19,22 @@ namespace Practice8
         /*
          * Assert.AreEqual("A.ow.f tanedo tt..or a.oan. cnrre. ko.e..",kata.SixColumnEncryption("Attack at noon or we are done for"));
          */
+        public static bool IsOnionArray(int[] arr)
+        {
+            int end = arr.Length - 1;
+            for (int i = 0; i < Math.Floor((double)arr.Length / 2); i++)
+            {
+                if (arr[i] + arr[end] <= 10)
+                {
+                    end--;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public string StolenLunch(string note)
         {
             Dictionary<string, string> code = new Dictionary<string, string>
