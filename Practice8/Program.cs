@@ -14,11 +14,34 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(DoublyNotLess("9998786543"));
+            var a = new string[] { "dog", "bar", "foo" };
+            var b = new string[] { "foo", "bar", "cat" };
+            var c = new string[] { "gin", "foo", "bar" };
+            var answer = Intersect(a, b, c);
+            foreach (var item in answer)
+            {
+                Debug.WriteLine(item);
+            }
         }
         /*
          * Assert.AreEqual("A.ow.f tanedo tt..or a.oan. cnrre. ko.e..",kata.SixColumnEncryption("Attack at noon or we are done for"));
          */
+        public static string[] Intersect(params string[][] arrays)
+        {
+            List<string> words = new List<string>();
+            for (int i = 0; i < arrays.Length; i++)
+            {
+                for (int j = 0; j < arrays[i].Length; j++)
+                {
+                    var containsWord = arrays.Select(x => x.Contains(arrays[i][j]));
+                    if (containsWord.All(x => x == true) && !words.Contains(arrays[i][j]))
+                    {
+                        words.Add(arrays[i][j]);
+                    }
+                }
+            }
+            return words.ToArray();
+        }
         public static bool IsOnionArray(int[] arr)
         {
             int end = arr.Length - 1;
