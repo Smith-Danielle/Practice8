@@ -26,6 +26,23 @@ namespace Practice8
         /*
          * Assert.AreEqual("A.ow.f tanedo tt..or a.oan. cnrre. ko.e..",kata.SixColumnEncryption("Attack at noon or we are done for"));
          */
+        public static string solve(string s)
+        {
+            if (s == string.Join("", s.ToCharArray().Reverse()))
+            {
+                return "OK";
+            }
+            for (int i = 0; i < s.Length; i++)
+            {
+                string forward = s.Remove(i, 1);
+                string backwards = string.Join("", forward.ToCharArray().Reverse());
+                if (forward == backwards)
+                {
+                    return "remove one";
+                }
+            }
+            return "not possible";
+        }
         public static string[] Intersect(params string[][] arrays)
         {
             List<string> words = new List<string>();
