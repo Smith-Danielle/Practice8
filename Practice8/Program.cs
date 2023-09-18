@@ -14,18 +14,22 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            var a = new string[] { "dog", "bar", "foo" };
-            var b = new string[] { "foo", "bar", "cat" };
-            var c = new string[] { "gin", "foo", "bar" };
-            var answer = Intersect(a, b, c);
-            foreach (var item in answer)
-            {
-                Debug.WriteLine(item);
-            }
+            Debug.WriteLine(ROT135("The quick brown fox jumps over the 2 lazy dogs"));
         }
         /*
          * Assert.AreEqual("A.ow.f tanedo tt..or a.oan. cnrre. ko.e..",kata.SixColumnEncryption("Attack at noon or we are done for"));
          */
+        public static string ROT135(string input)
+        {
+            string alpha = "abcdefghijklmnopqrstuvwxyz";
+            string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string num = "0123456789";
+            var rot = input.Select(x => alpha.Contains(x) ? alpha.IndexOf(x) + 13 > 25 ? alpha[alpha.IndexOf(x) + 13 - 26] : alpha[alpha.IndexOf(x) + 13] :
+                                        upper.Contains(x) ? upper.IndexOf(x) + 13 > 25 ? upper[upper.IndexOf(x) + 13 - 26] : upper[upper.IndexOf(x) + 13] :
+                                        num.Contains(x) ? num.IndexOf(x) + 5 > 9 ? num[num.IndexOf(x) + 5 - 10] : num[num.IndexOf(x) + 5] :
+                                        x);
+            return string.Join("", rot);
+        }
         public static string solve(string s)
         {
             if (s == string.Join("", s.ToCharArray().Reverse()))
