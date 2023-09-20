@@ -14,11 +14,127 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(ROT135("The quick brown fox jumps over the 2 lazy dogs"));
+
         }
         /*
-         * Assert.AreEqual("A.ow.f tanedo tt..or a.oan. cnrre. ko.e..",kata.SixColumnEncryption("Attack at noon or we are done for"));
+         new object[]{10,"If you wish to make an apple pie from scratch, you must first invent the universe.",
+		"10 hu fmo a,ys vi utie mr snehn rni tvte .ysushou teI fwea pmapi apfrok rei tnocsclet"},
          */
+        public static string Encode1(int n, string s)
+        {
+            string current = s;
+            for (int z = 0; z < n; z++)
+            {
+                int index = 0;
+                var spaces = current.Select(x => index++ < current.Length && x == ' ' ? $"{index - 1}" : "").Where(x => x != "").Select(x => Convert.ToInt32(x)).ToList();
+                string noSpace = current.Replace(" ", "");
+                for (int i = 0; i < n; i++)
+                {
+                    noSpace = noSpace[noSpace.Length - 1] + noSpace.Substring(0, noSpace.Length - 1);
+                }
+
+                int spaceIndex = 0;
+                while (spaceIndex < spaces.Count)
+                {
+                    if (spaces[spaceIndex] < noSpace.Length)
+                    {
+                        noSpace = noSpace.Insert(spaces[spaceIndex], " ");
+                    }
+                    else
+                    {
+                        noSpace += " ";
+                    }
+                    spaceIndex++;
+                }
+                current = noSpace;
+
+                var currentList = current.Split(" ").Where(x => !x.Contains(" ") && x != "").ToArray();
+                for (int i = 0; i < currentList.Length; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        currentList[i] = currentList[i][currentList[i].Length - 1] + currentList[i].Substring(0, currentList[i].Length - 1);
+                    }
+                }
+                noSpace = string.Join("", currentList);
+
+                spaceIndex = 0;
+                while (spaceIndex < spaces.Count)
+                {
+                    if (spaces[spaceIndex] < noSpace.Length)
+                    {
+                        noSpace = noSpace.Insert(spaces[spaceIndex], " ");
+                    }
+                    else
+                    {
+                        noSpace += " ";
+                    }
+                    spaceIndex++;
+                }
+                current = noSpace;
+            }
+            return $"{n} {current}";
+        }
+
+        public static string Decode1(string s)
+        {
+            string num = "";
+            string mess = s;
+            while (char.IsNumber(mess[0]))
+            {
+                num += mess[0];
+                mess = mess.Substring(1);
+            }
+            mess = mess.Substring(1);
+
+            for (int z = 0; z < Convert.ToInt32(num); z++)
+            {
+                int index = 0;
+                var spaces = mess.Select(x => index++ < mess.Length && x == ' ' ? $"{index - 1}" : "").Where(x => x != "").Select(x => Convert.ToInt32(x)).ToList();
+                string noSpace = mess.Replace(" ", "");
+
+                var messList = mess.Split(" ").Where(x => !x.Contains(" ") && x != "").ToArray();
+                for (int i = 0; i < messList.Length; i++)
+                {
+                    for (int j = 0; j < Convert.ToInt32(num); j++)
+                    {
+                        messList[i] = messList[i].Substring(1) + messList[i][0];
+                    }
+                }
+                noSpace = string.Join("", messList);
+
+                for (int i = 0; i < Convert.ToInt32(num); i++)
+                {
+                    noSpace = noSpace.Substring(1) + noSpace[0];
+                }
+
+                int spaceIndex = 0;
+                while (spaceIndex < spaces.Count)
+                {
+                    if (spaces[spaceIndex] < noSpace.Length)
+                    {
+                        noSpace = noSpace.Insert(spaces[spaceIndex], " ");
+                    }
+                    else
+                    {
+                        noSpace += " ";
+                    }
+                    spaceIndex++;
+                }
+                mess = noSpace;
+            }
+            return mess;
+        }
+        public static string MixedFraction(string s)
+        {
+            var fraction = s.Split('/');
+            int num = Convert.ToInt32(fraction[0]) % Convert.ToInt32(fraction[1]);
+            if (num == 0)
+            {
+                return (Convert.ToInt32(fraction[0]) / Convert.ToInt32(fraction[1])).ToString();
+            }
+            return "";
+        }
         public static string ROT135(string input)
         {
             string alpha = "abcdefghijklmnopqrstuvwxyz";
