@@ -20,7 +20,7 @@ namespace Practice8
          new object[]{10,"If you wish to make an apple pie from scratch, you must first invent the universe.",
 		"10 hu fmo a,ys vi utie mr snehn rni tvte .ysushou teI fwea pmapi apfrok rei tnocsclet"},
          */
-        public bool IsPrime(int number)
+        public static bool IsPrime(int number)
         {
             if (number <= -1)
             {
