@@ -14,12 +14,33 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-
+            Debug.WriteLine(IsPrime(-751));
         }
         /*
          new object[]{10,"If you wish to make an apple pie from scratch, you must first invent the universe.",
 		"10 hu fmo a,ys vi utie mr snehn rni tvte .ysushou teI fwea pmapi apfrok rei tnocsclet"},
          */
+        public bool IsPrime(int number)
+        {
+            if (number <= -1)
+            {
+                number = number * -1;
+            }
+            if (number == 0 || number == 1)
+            {
+                return true;
+            }
+            if (number == 2)
+            {
+                return true;
+            }
+            var primeCheck = Enumerable.Range(2, number - 2).Where(x => number % x == 0);
+            if (primeCheck.Any())
+            {
+                return false;
+            }
+            return true;
+        }
         public static string Encode1(int n, string s)
         {
             string current = s;
