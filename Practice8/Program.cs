@@ -14,12 +14,41 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(IsPrime(-751));
+            Debug.WriteLine(IsMadhavArray(new int[] { 2, 1, 1, 4, -1}));
         }
         /*
-         new object[]{10,"If you wish to make an apple pie from scratch, you must first invent the universe.",
-		"10 hu fmo a,ys vi utie mr snehn rni tvte .ysushou teI fwea pmapi apfrok rei tnocsclet"},
+         Assert.True(Kata.IsMadhavArray(new int[] {2, 1, 1}));
+         Assert.True(Kata.IsMadhavArray(new int[] {2, 1, 1, 4, -1, -1}));
          */
+        public static bool IsMadhavArray(int[] a)
+        {
+            if (a.Length <= 1)
+            {
+                return false;
+            }
+            List<List<int>> groups = new List<List<int>>();
+            int amount = 1;
+            int startPoint = 0;
+            while (startPoint < a.Length)
+            {
+                try
+                {
+                    groups.Add(a.ToList().GetRange(startPoint, amount));
+                }
+                catch
+                {
+                    return false;
+                }
+                amount++;
+                startPoint += groups.Last().Count();
+            }
+            var sums = groups.Select(x => x.Sum());
+            if (sums.All(x => x == sums.First()))
+            {
+                return true;
+            }
+            return false;
+        }
         public static bool IsPrime(int number)
         {
             if (number <= -1)
