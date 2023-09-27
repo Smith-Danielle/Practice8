@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 
 namespace Practice8
 {
@@ -14,12 +15,47 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(IsMadhavArray(new int[] { 2, 1, 1, 4, -1}));
+            Debug.WriteLine(missing("99929993999499969997999910000100011000210003"));
         }
         /*
-         Assert.True(Kata.IsMadhavArray(new int[] {2, 1, 1}));
-         Assert.True(Kata.IsMadhavArray(new int[] {2, 1, 1, 4, -1, -1}));
          */
+        public static int missing(string s)
+        {
+            for (int i = 0; i < Math.Floor((double)s.Length / 2); i++)
+            {
+                if (i > 8)
+                {
+                    return -1;
+                }
+                int currentNum = Convert.ToInt32(s.Substring(0, i + 1));
+                string remaining = s.Substring(i + 1);
+                int missing = -1;
+                bool isValid = true;
+                while (isValid && remaining.Length > 0)
+                {
+                    if (remaining.IndexOf((currentNum + 1).ToString()) == 0)
+                    {
+                        currentNum++;
+                        remaining = remaining.Substring((currentNum).ToString().Length);
+                    }
+                    else if (remaining.IndexOf((currentNum + 2).ToString()) == 0 && missing == -1)
+                    {
+                        missing = currentNum + 1;
+                        currentNum += 2;
+                        remaining = remaining.Substring((currentNum).ToString().Length);
+                    }
+                    else
+                    {
+                        isValid = false;
+                    }
+                }
+                if (isValid)
+                {
+                    return missing;
+                }
+            }
+            return -1;
+        }
         public static bool IsMadhavArray(int[] a)
         {
             if (a.Length <= 1)
