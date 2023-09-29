@@ -15,10 +15,39 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(missing("99929993999499969997999910000100011000210003"));
+            Debug.WriteLine(HackMyTerminal(6, "UBJ<[EBENEN'['HS`T-CAMPER[F'$^TV~._* J}W+@W]KXB>FZ#,(?'_TP~^AFRIKA=ISLAND;E~;X^L(:!D&/?(|.MCH/ISOTOP//VG!/VZZ~BV}*>:.MZHH}@`X=_*WAGGON-)KUI&T)F'^%'=^WW%G`)&C;V:$+T}N\r\n"));
         }
         /*
          */
+        public static string HackMyTerminal(int passLength, string machineCode)
+        {
+            if (string.IsNullOrEmpty(machineCode) || passLength == 0)
+            {
+                return null;
+            }
+            var trim = string.Join("", machineCode.Select(x => char.IsLetter(x) ? x : ' ')).Split(" ").Where(x => !string.IsNullOrWhiteSpace(x)).Where(x => x.Length == passLength).ToList();
+            if (trim.Count() == 1)
+            {
+                return trim.First();
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.Append('T', trim.Count);
+            for (int i = 0; i < passLength; i++)
+            {
+                var placeCheck = trim.Select(x => x[i]).ToList();
+                if (placeCheck.Distinct().Count() != placeCheck.Count)
+                {
+                    var counts = placeCheck.Select(x => new { Letter = x, Amount = placeCheck.Where(y => y == x).Count() }).Where(x => x.Amount != 1).ToList();
+                    for (int j = 0; j < counts.Count; j++)
+                    {
+                        int removeIndex = placeCheck.IndexOf(counts[j].Letter);
+                        sb[removeIndex] = 'F';
+                        placeCheck[removeIndex] = ' ';
+                    }
+                }
+            }
+            return trim[sb.ToString().IndexOf("T")];
+        }
         public static int missing(string s)
         {
             for (int i = 0; i < Math.Floor((double)s.Length / 2); i++)
