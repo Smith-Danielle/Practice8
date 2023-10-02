@@ -15,10 +15,56 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(HackMyTerminal(6, "UBJ<[EBENEN'['HS`T-CAMPER[F'$^TV~._* J}W+@W]KXB>FZ#,(?'_TP~^AFRIKA=ISLAND;E~;X^L(:!D&/?(|.MCH/ISOTOP//VG!/VZZ~BV}*>:.MZHH}@`X=_*WAGGON-)KUI&T)F'^%'=^WW%G`)&C;V:$+T}N\r\n"));
+            Debug.WriteLine(RepeatAdjacent("ccccoodeffffiiighhhhhhhhhhttttttts"));
         }
         /*
          */
+        public static int RepeatAdjacent(string s)
+        {
+            int letterCount = 0;
+            string letter = "";
+            int lastLetterCount = 0;
+            int tempGroup = 0;
+            int group = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (letter == s[i].ToString())
+                {
+                    letterCount++;
+                }
+                else
+                {
+                    if (letter.Length > 0)
+                    {
+                        if (letterCount > 1)
+                        {
+                            tempGroup++;
+                        }
+                        else
+                        {
+                            if (tempGroup > 1)
+                            {
+                                group++;
+                            }
+                            tempGroup = 0;
+                        }
+                        lastLetterCount = letterCount;
+                    }
+                    letter = s[i].ToString();
+                    letterCount = 1;
+                }
+            }
+            if (letterCount > 1)
+            {
+                tempGroup++;
+            }
+            if (tempGroup > 1)
+            {
+                group++;
+            }
+            return group;
+
+        }
         public static string HackMyTerminal(int passLength, string machineCode)
         {
             if (string.IsNullOrEmpty(machineCode) || passLength == 0)
