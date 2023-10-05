@@ -19,6 +19,20 @@ namespace Practice8
         }
         /*
          */
+        public static int NormIndex(int[] array, int index)
+        {
+            int normalIndex = index;
+            while (normalIndex >= array.Length)
+            {
+                normalIndex -= array.Length;
+            }
+            while (normalIndex < 0)
+            {
+                normalIndex += array.Length;
+            }
+            return array[normalIndex];
+
+        }
         public static int RepeatAdjacent(string s)
         {
             int letterCount = 0;
