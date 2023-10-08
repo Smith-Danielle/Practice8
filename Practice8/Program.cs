@@ -15,10 +15,38 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(RepeatAdjacent("ccccoodeffffiiighhhhhhhhhhttttttts"));
+            Debug.WriteLine(AddCheckDigit("036532"));
         }
         /*
          */
+        public static string AddCheckDigit(string number)
+        {
+            string numberRev = string.Join("",number.ToCharArray().Reverse());
+            int sum = 0;
+            int num = 2;
+            for (int i = 0; i < numberRev.Length; i++)
+            {
+                if (num > 7)
+                {
+                    num = 2;
+                }
+                sum += num * (Convert.ToInt32(numberRev[i]) - 48);
+                num++;
+            }
+            int remainder = sum % 11;
+            if (remainder == 0)
+            {
+                number += "0";
+                return number;
+            }
+            if (remainder == 1)
+            {
+                number += "X";
+                return number;
+            }
+            number += (11 - remainder).ToString();
+            return number;
+        }
         public static int NormIndex(int[] array, int index)
         {
             int normalIndex = index;
