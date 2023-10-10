@@ -19,6 +19,16 @@ namespace Practice8
         }
         /*
          */
+        public int[] ArrayOperations(int[] a, int k)
+        {
+            int maxValue = 0;
+            for (var i = 0; i < k; i++)
+            {
+                maxValue = a.Max();
+                a = a.Select(x => maxValue - x).ToArray();
+            }
+            return a;
+        }
         public static string AddCheckDigit(string number)
         {
             string numberRev = string.Join("",number.ToCharArray().Reverse());
