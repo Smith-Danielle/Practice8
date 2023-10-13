@@ -19,6 +19,26 @@ namespace Practice8
         }
         /*
          */
+        public static int[] SocialistDistribution(int[] population, int minimum)
+        {
+            if (minimum > population.Sum() / population.Length)
+            {
+                return new int[0];
+            }
+
+            while (population.Any(x => x < minimum))
+            {
+                int max = population.Max();
+                int indexMax = Array.IndexOf(population, max);
+                population[indexMax] = max - 1;
+
+                int under = population.Where(x => x < minimum).First();
+                int indexUnder = Array.IndexOf(population, under);
+                population[indexUnder] = under + 1;
+            }
+
+            return population;
+        }
         public int[] ArrayOperations(int[] a, int k)
         {
             int maxValue = 0;
