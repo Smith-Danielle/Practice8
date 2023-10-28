@@ -15,14 +15,37 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            var test = Portion(new int[] { 1, 2, 3, 4 }, -1, 2);
-            foreach (var item in test)
-            {
-                Debug.WriteLine(item);
-            }
+            Debug.WriteLine(print(3));
         }
         /*
          */
+        public static string print(int n)
+        {
+            if (n <= 0 || n % 2 == 0)
+            {
+                return null;
+            }
+            List<string> diamonds = new List<string>();
+            int count = n;
+            for (int i = n; i >= 1; i -= 2)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append('*', i);
+                if (i != n)
+                {
+                    StringBuilder sbSpace = new StringBuilder();
+                    sbSpace.Append(' ', count - sb.Length);
+                    diamonds.Add($"{sbSpace}{sb}");
+                }
+                else
+                {
+                    diamonds.Add(sb.ToString());
+                }
+                count--;
+            }
+            var reverse = diamonds.ToArray().Skip(1).Reverse().ToList();
+            return string.Join("", reverse.Concat(diamonds).Select(x => $"{x}\n"));
+        }
         public static int[] Portion(int[] a, int i, int n)
         {
             bool negative = false;
