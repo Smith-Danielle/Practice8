@@ -15,10 +15,39 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(print(3));
+            Debug.WriteLine(Pattern(17));
         }
         /*
          */
+        public static string Pattern(int n)
+        {
+            string digits = string.Empty;
+            List<string> lines = new List<string>();
+            if (n >= 1)
+            {
+                string numOrder = "1234567890";
+                string bottom = "";
+                for (int i = 0; i < n; i++)
+                {
+                    int index = i;
+                    while (index >= numOrder.Length)
+                    {
+                        index -= numOrder.Length;
+                    }
+                    bottom += numOrder[index];
+                }
+                lines.Add(bottom);
+                for (int i = 0; i < n - 1; i++)
+                {
+                    string temp = lines.Last().Substring(i + 1);
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(temp[0], i + 1);
+                    lines.Add($"{sb}{temp}");
+                }
+                digits = string.Join("", lines.Select(x => $"{string.Join("", x.ToArray().Reverse())}\n").Reverse());
+            }
+            return digits.Any() ? digits.Substring(0, digits.Length - 1) : digits;
+        }
         public static string print(int n)
         {
             if (n <= 0 || n % 2 == 0)
