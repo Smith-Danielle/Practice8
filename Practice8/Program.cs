@@ -15,10 +15,21 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(Pattern(17));
+
         }
         /*
          */
+        public static int[] CutTheRopes(int[] a)
+        {
+            List<int> count = new List<int>();
+            while (a.Any(x => x > 0))
+            {
+                count.Add(a.Where(x => x != 0).Count());
+                int min = a.Where(x => x != 0).Min();
+                a = a.Select(x => x != 0 ? x - min : x).ToArray();
+            }
+            return count.ToArray();
+        }
         public static string Pattern(int n)
         {
             string digits = string.Empty;
