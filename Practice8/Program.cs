@@ -15,10 +15,81 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
+            Debug.WriteLine(PrizeCounter(new string[] {
+            "R", "G", "B", "G", "B",
+            "G", "B", "G", "B", "G",
+            "B", "B", "B", "G", "R",
+            "R", "B", "B", "B", "R",
+            "G", "B", "B", "R" }));
 
         }
-        /*
-         */
+        public static int PrizeCounter(string[] s)
+        {
+            //Submitted in Codewars as JavaScript
+            var points = 0;
+            var letterDisabled = "";
+            var r = 0;
+            var b = 0;
+            var g = 0;
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (s[i] == "R")
+                {
+                    r++;
+                    if (b != 0 || g != 0)
+                    {
+                        b = 0;
+                        g = 0;
+                    }
+                }
+                if (s[i] == "B")
+                {
+                    b++;
+                    if (r != 0 || g != 0)
+                    {
+                        r = 0;
+                        g = 0;
+                    }
+                }
+                if (s[i] == "G")
+                {
+                    g++;
+                    if (b != 0 || r != 0)
+                    {
+                        b = 0;
+                        r = 0;
+                    }
+                }
+                if (r == 3 || b == 3 || g == 3)
+                {
+                    if (s[i] != letterDisabled)
+                    {
+                        points += 100;
+                        letterDisabled = s[i];
+                        if (letterDisabled == "R")
+                        {
+                            points += 500;
+                        }
+                        if (letterDisabled == "B")
+                        {
+                            points += 300;
+                        }
+                        if (letterDisabled == "G")
+                        {
+                            points += 200;
+                        }
+                    }
+                    r = 0;
+                    b = 0;
+                    g = 0;
+                }
+                if (s[i] != letterDisabled)
+                {
+                    points += 100;
+                }
+            }
+            return points;
+        }
         public static int[] CutTheRopes(int[] a)
         {
             List<int> count = new List<int>();
