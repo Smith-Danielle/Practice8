@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
+using System.Diagnostics.Metrics;
 
 namespace Practice8
 {
@@ -15,13 +16,141 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(PrizeCounter(new string[] {
-            "R", "G", "B", "G", "B",
-            "G", "B", "G", "B", "G",
-            "B", "B", "B", "G", "R",
-            "R", "B", "B", "B", "R",
-            "G", "B", "B", "R" }));
+            Debug.WriteLine(CircleSlash(16));
+        }
+        public static bool IsMAC48Address(string InputString)
+        {
+            var segments = InputString.Split("-");
+            if (segments.Length != 6)
+            {
+                return false;
+            }
+            if (segments.Select(x => x.Length).Any(x => x != 2))
+            {
+                return false;
+            }
+            string validChars = "0123456789ABCDEF-";
+            if (InputString.Where(x => !validChars.Contains(x)).Any())
+            {
+                return false;
+            }
+            return true;
 
+        }
+        public static int CircleSlash(int n)
+        {
+            var nums = Enumerable.Range(1, n).ToList();
+            int last = 0;
+
+            while (nums.Count > 1)
+            {
+               int temp = nums.Last();
+               if (nums.Last() != last)
+               {
+                    int counter = 0;
+                    nums = nums.Select(x => counter++ % 2 == 0 ? x : 0).Where(x => x != 0).ToList();
+               }
+               else
+                {
+                    int counter = 0;
+                    nums = nums.Select(x => counter++ % 2 != 0 ? x : 0).Where(x => x != 0).ToList();
+                }
+               last = temp;
+            }
+            return nums.First();
+        }
+    
+        public static class Kata
+        {
+            public static BigInteger SumMultTriangNum(int n, int m)
+            {
+                    var triangular = Enumerable.Range(1, n).Select(x => x * (x + 1) / 2);
+                    BigInteger lastTri = triangular.Last();
+                    BigInteger multiple = triangular.Last();
+                    int count = 1;
+                    while (triangular.Any(x => multiple % x != 0))
+                    {
+                        multiple = lastTri * ++count;
+                    }
+                BigInteger sumMultiple = 0;
+                int counter = 1;
+                while (counter <= m)
+                {
+                    sumMultiple +=  multiple * counter++;
+                }
+                return sumMultiple;
+            }
+        }
+        public static string X(int n)
+        {
+            List<string> cubes = new List<string>();
+            int counter = 0;
+            for (int i = 0; i < Math.Ceiling((double)n/2); i++)
+            {
+                string temp = "";
+                for (int j = 0; j < n; j++)
+                {
+                    if (j == counter || j == (n - 1) - counter)
+                    {
+                        temp += "■";
+                    }
+                    else
+                    {
+                        temp += "□";
+                    }
+                }
+                cubes.Add(temp);
+                counter++;
+            }
+            cubes.AddRange(cubes.ToArray().Reverse().Skip(1).ToList());
+            return string.Join('\n', cubes);
+        }
+        public class PaginationHelper<T>
+        {
+            public PaginationHelper(IList<T> collection, int itemsPerPage)
+            {
+                ItemCount = collection.Count;
+                PageCount = (int)Math.Ceiling((double)ItemCount / (double)itemsPerPage);
+                ItemsPerPage = itemsPerPage;
+            }
+            public int ItemCount { get; set; }
+            public int PageCount { get; set; }
+            public int ItemsPerPage { get; set; }
+            public int PageItemCount(int pageIndex)
+            {
+                if (pageIndex + 1 > PageCount || pageIndex < 0)
+                {
+                    return -1;
+                }
+                else if (pageIndex + 1 == PageCount)
+                {
+                    return ItemCount % ItemsPerPage == 0 ? ItemsPerPage : ItemCount % ItemsPerPage;
+                }
+                return ItemsPerPage;
+            }
+            public int PageIndex(int itemIndex)
+            {
+                if (itemIndex < 0 || itemIndex + 1 > ItemCount)
+                {
+                    return -1;
+                }
+                return itemIndex / ItemsPerPage;
+            }
+        }
+        public static string[] TowerBuilder(int nFloors)
+        {
+            
+            var build = Enumerable.Range(1, nFloors).Select(x => "*");
+            
+            StringBuilder sb = new StringBuilder();
+            int counter = 0;
+
+            var star = build.Select(x => counter++ != 0 ? $"{x}{sb.Append('*', 2)}" : x);
+
+            StringBuilder sb1 = new StringBuilder();
+            int counter1 = 0;
+
+            return star.Reverse().Select(x => counter1++ != 0 ? $"{sb1.Append(' ', 1)}{x}{sb1}" : x).Reverse().ToArray();
         }
         public static int PrizeCounter(string[] s)
         {
