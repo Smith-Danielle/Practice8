@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.Metrics;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Practice8
 {
@@ -16,7 +17,31 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(CircleSlash(16));
+            Debug.WriteLine(Palindromization("123", 7));
+            
+        }
+        public static string Palindromization(string elements, int n)
+        {
+            if (string.IsNullOrEmpty(elements) || n < 2)
+            {
+                return "Error!";
+            }
+            string text = "";
+            int index = 0;
+            while (n > text.Length * 2)
+            {
+                text += elements[index];
+                index++;
+                if (index > elements.Length - 1)
+                {
+                    index = 0;
+                }
+            }
+            if (n % 2 == 0)
+            {
+                return $"{text}{string.Join("", text.ToArray().Reverse())}";
+            }
+            return $"{text}{string.Join("", text.Remove(text.Length - 1).ToArray().Reverse())}";
         }
         public static bool IsMAC48Address(string InputString)
         {
