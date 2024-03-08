@@ -17,8 +17,74 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(Palindromization("123", 7));
+            Debug.WriteLine(LatestClock(0, 8, 8, 2));
             
+        }
+        public static string LatestClock(int a, int b, int c, int d)
+        {
+            string nums = $"{a}{b}{c}{d}";
+            string time = "";
+            //hour
+            if (nums.Contains("2") && nums.Remove(nums.IndexOf("2"), 1).Where(x => Convert.ToInt32(x) - 48 <= 5).Count() >= 2)
+            {
+                if (nums.Contains("3") || nums.Contains("2") || nums.Contains("1") || nums.Contains("0"))
+                {
+                    nums = nums.Remove(nums.IndexOf("2"), 1);
+                    for (int i = 3; i >= 0; i--)
+                    {
+                        if (nums.Contains($"{i}"))
+                        {
+                            time += $"2{i}:";
+                            nums = nums.Remove(nums.IndexOf($"{i}"), 1);
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (nums.Contains("1"))
+            {
+                nums = nums.Remove(nums.IndexOf("1"), 1);
+                for (int i = 9; i >= 0; i--)
+                {
+                    if (nums.Contains($"{i}"))
+                    {
+                        time += $"1{i}:";
+                        nums = nums.Remove(nums.IndexOf($"{i}"), 1);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                nums = nums.Remove(nums.IndexOf("0"), 1);
+                for (int i = 9; i >= 0; i--)
+                {
+                    if (nums.Contains($"{i}"))
+                    {
+                        time += $"0{i}:";
+                        nums = nums.Remove(nums.IndexOf($"{i}"), 1);
+                        break;
+                    }
+                }
+            }
+            //minute
+            for (int i = 5; i >= 0; i--)
+            {
+                if (nums.Contains($"{i}"))
+                {
+                    nums = nums.Remove(nums.IndexOf($"{i}"), 1);
+                    for (int j = 9; j >= 0; j--)
+                    {
+                        if (nums.Contains($"{j}"))
+                        {
+                            time += $"{i}{j}";
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            return time;
         }
         public static string Palindromization(string elements, int n)
         {
