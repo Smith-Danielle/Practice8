@@ -17,8 +17,44 @@ namespace Practice8
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine(LatestClock(0, 8, 8, 2));
+            Debug.WriteLine(Pairwise(new int[] { 0, 0, 0, 0, 1, 1 }, 1));
             
+        }
+        public static int Pairwise(int[] arr, int n)
+        {
+            int?[] nums = arr.Select(x => (int?)x).ToArray();
+            int sum = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] != null && nums[i] <= n && i != nums.Length - 1)
+                {
+                    for (int j = i + 1; j < nums.Length; j++)
+                    {
+                        if (nums[j] != null && nums[i] + nums[j] == n)
+                        {
+                            nums[i] = null;
+                            nums[j] = null;
+                            sum += i + j;
+                            break;
+                        }
+                    }
+                }
+            }
+            return sum;
+        }
+        public static bool HasSubpatterns(string str)
+        {
+            var letterCount = str.Select(x => new { Letter = x, Amount = str.Where(y => y == x).Count() }).Select(x => x.Amount).Distinct();
+
+            if (!letterCount.Contains(1))
+            {
+                int min = letterCount.Min();
+                if (letterCount.Count() == 1 || letterCount.All(x => x % min == 0))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         public static string LatestClock(int a, int b, int c, int d)
         {
